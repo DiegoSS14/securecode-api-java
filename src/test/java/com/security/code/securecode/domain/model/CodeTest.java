@@ -1,4 +1,4 @@
-package com.security.code.securecode.model;
+package com.security.code.securecode.domain.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;

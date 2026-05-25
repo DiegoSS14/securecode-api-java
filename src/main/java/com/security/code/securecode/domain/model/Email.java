@@ -1,4 +1,4 @@
-package com.security.code.securecode.model;
+package com.security.code.securecode.domain.model;
 
 import lombok.Getter;
 import lombok.Setter;
