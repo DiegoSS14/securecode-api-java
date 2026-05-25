@@ -1,5 +1,7 @@
 package com.security.code.securecode.domain.model;
 
+import com.security.code.securecode.domain.exception.DomainException;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,9 +11,9 @@ public class Email {
     private String value = null;
 
     public Email(String value) {
-        if (value == null) throw new NullPointerException("Email address cannot be null");
-        if (value.isEmpty()) throw new IllegalArgumentException("Email address cannot be empty");
-        if (!Email.isValid(value)) throw new IllegalArgumentException("Invalid email address");
+        if (value == null) throw new DomainException("Email address cannot be null");
+        if (value.isEmpty()) throw new DomainException("Email address cannot be empty");
+        if (!Email.isValid(value)) throw new DomainException("Invalid email address");
         this.value = value;
     }
 
