@@ -5,24 +5,47 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.security.code.securecode.domain.valueObjects.Email;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
-@ToString
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class SecurityCode {
+    @Id
+    @EqualsAndHashCode.Include
     private UUID id;
     private String code;
+    private Email email;
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+    @Column(name = "expires_in")
     private LocalDateTime expiresIn;
 
-    public SecurityCode() {
+    public SecurityCode(String email, int expiresInMinutes) {
+        this.email = new Email(email);
         this.id = UUID.randomUUID();
         this.code = SecurityCode.generateCode();
         this.createdAt = LocalDateTime.now();
-        this.expiresIn = this.createdAt.plusMinutes(20);
+        this.expiresIn = this.createdAt.plusMinutes(expiresInMinutes);
+    }
+
+    public SecurityCode(String email) {
+        this.email = new Email(email);
+        this.id = UUID.randomUUID();
+        this.code = SecurityCode.generateCode();
+        this.createdAt = LocalDateTime.now();
+        this.expiresIn = this.createdAt.plusMinutes(15);
+    }
+
+    public boolean isValid() {
+        LocalDateTime now = LocalDateTime.now();
+        return now.isBefore(this.expiresIn);
     }
 
     public static String generateCode() {
@@ -35,6 +58,10 @@ public class SecurityCode {
     }
 
     public static boolean equals(String code1, String code2) {
+        return code1.equals(code2);
+    }
+
+    public static boolean equals(SecurityCode code1, SecurityCode code2) {
         return code1.equals(code2);
     }
 }
