@@ -1,8 +1,9 @@
-package com.security.code.securecode.domain.model;
+package com.security.code.securecode.domain.valueObjects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
 import com.security.code.securecode.infra.exception.PatternException;

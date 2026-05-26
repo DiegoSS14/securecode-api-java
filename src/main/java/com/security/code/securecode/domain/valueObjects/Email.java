@@ -1,4 +1,4 @@
-package com.security.code.securecode.domain.model;
+package com.security.code.securecode.domain.valueObjects;
 
 import com.security.code.securecode.infra.exception.PatternException;
 
