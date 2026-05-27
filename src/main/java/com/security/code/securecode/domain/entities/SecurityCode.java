@@ -10,12 +10,14 @@ import com.security.code.securecode.domain.valueObjects.Email;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "security_code")
 public class SecurityCode {
     @Id
     @EqualsAndHashCode.Include

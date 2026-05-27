@@ -2,11 +2,13 @@ package com.security.code.securecode.domain.valueObjects;
 
 import com.security.code.securecode.infra.exception.PatternException;
 
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Embeddable
 public class Email {
     private String value = null;
 
