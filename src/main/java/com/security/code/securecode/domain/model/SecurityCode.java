@@ -1,4 +1,4 @@
-package com.security.code.securecode.domain.entities;
+package com.security.code.securecode.domain.model;
 
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -7,26 +7,23 @@ import java.util.stream.Collectors;
 
 import com.security.code.securecode.domain.valueObjects.Email;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Table(name = "security_code")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SecurityCode {
-    @Id
     @EqualsAndHashCode.Include
     private UUID id;
     private String code;
     private Email email;
-    @Column(name = "created_at")
     private LocalDateTime createdAt;
-    @Column(name = "expires_in")
     private LocalDateTime expiresIn;
 
     public SecurityCode(String email, int expiresInMinutes) {

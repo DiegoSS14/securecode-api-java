@@ -1,6 +1,6 @@
 package com.security.code.securecode.application.usecase;
 
-import com.security.code.securecode.domain.entities.SecurityCode;
+import com.security.code.securecode.domain.model.SecurityCode;
 
 public class SendEmailUseCase {
     private SecurityCode code;
