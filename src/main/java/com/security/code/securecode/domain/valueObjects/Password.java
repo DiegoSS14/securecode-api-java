@@ -7,19 +7,20 @@ import java.util.HexFormat;
 import com.security.code.securecode.infra.exception.PatternException;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Getter
 public class Password {
     @EqualsAndHashCode.Include
     private String value;
 
     public Password(String value) {
         try {
-            hash(value);
+            this.value = hash(value);
         } catch (Exception e) {
             throw new PatternException("Invalid hash password");
         }
-        this.value = value;
     }
 
     public String hash(String value) throws NoSuchAlgorithmException  {
