@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.security.code.securecode.application.dto.UserUpdateDto;
 import com.security.code.securecode.infra.db.jpa.UserEntity;
+import com.security.code.securecode.infra.db.repository.UserRepository;
 import com.security.code.securecode.infra.exception.PatternException;
 
 import lombok.AllArgsConstructor;
@@ -15,14 +16,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Service
 public class UserService {
-    public JpaRepository<UserEntity, String> repository;
+    public UserRepository repository;
 
     public Optional<UserEntity> findById(String id) {
         return repository.findById(id);
     }
 
     public Optional<UserEntity> findByEmail(String email) {
-        return repository.findById(email);
+        return repository.findByEmail(email);
     }
 
     public List<UserEntity> findAll() {
@@ -43,6 +44,9 @@ public class UserService {
         }
         if (userUpdate.getPassword() != null) {
             user.setPassword(userUpdate.getPassword());
+        }
+        if (user == null) {
+            throw new PatternException("User not exists");
         }
         return repository.save(user);
     }

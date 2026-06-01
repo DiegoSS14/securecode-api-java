@@ -1,6 +1,7 @@
 package com.security.code.securecode.domain.model;
 
 import com.security.code.securecode.application.dto.UserDto;
+import com.security.code.securecode.application.dto.UserUpdateDto;
 import com.security.code.securecode.domain.valueObjects.Email;
 import com.security.code.securecode.domain.valueObjects.Id;
 import com.security.code.securecode.domain.valueObjects.Name;
@@ -24,6 +25,15 @@ public class User {
     private Password password;
 
     public User(UserDto user) {
+        this(
+            new Id(),
+            new Name(user.getName()),
+            new Email(user.getEmail()),
+            new Password(user.getPassword())
+        );
+    }
+
+    public User(UserUpdateDto user) {
         this(
             new Id(),
             new Name(user.getName()),
