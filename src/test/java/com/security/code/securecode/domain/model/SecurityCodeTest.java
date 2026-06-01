@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
-import com.security.code.securecode.domain.model.SecurityCode;
-
 public class SecurityCodeTest {
     @Test
     public void deveGerarUmCodigoDeSeguranca() {

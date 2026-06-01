@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import com.security.code.securecode.application.dto.UserDto;
 import com.security.code.securecode.application.dto.UserUpdateDto;
 import com.security.code.securecode.infra.db.jpa.UserEntity;
 import com.security.code.securecode.infra.exception.PatternException;
