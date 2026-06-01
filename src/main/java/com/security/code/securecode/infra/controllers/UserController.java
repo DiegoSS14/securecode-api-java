@@ -8,9 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.security.code.securecode.application.dto.UserDto;
+import com.security.code.securecode.application.dto.UserUpdateDto;
 import com.security.code.securecode.application.service.UserService;
+import com.security.code.securecode.domain.model.User;
+import com.security.code.securecode.infra.db.jpa.UserEntity;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("user")
@@ -24,4 +30,12 @@ public class UserController {
             .map(UserDto::new)
             .toList();
     }
+
+    @PostMapping
+    public UserEntity postMethodName(@RequestBody UserDto userDto) {
+        User user = new User(userDto);
+        UserEntity userEntity = new UserEntity(user);
+        return service.create(userEntity);
+    }
+    
 }

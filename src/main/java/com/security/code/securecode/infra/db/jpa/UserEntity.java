@@ -1,5 +1,7 @@
 package com.security.code.securecode.infra.db.jpa;
 
+import com.security.code.securecode.domain.model.User;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -22,4 +24,13 @@ public class UserEntity {
     private String name;
     private String email;
     private String password;
+
+    public UserEntity(User user) {
+        this(
+            user.getId().getValue(), 
+            user.getName().getValue(), 
+            user.getEmail().getValue(), 
+            user.getPassword().getValue()
+        );
+    }
 }

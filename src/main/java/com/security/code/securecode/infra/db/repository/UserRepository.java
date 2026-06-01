@@ -12,4 +12,6 @@ import com.security.code.securecode.infra.db.jpa.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, String> {
     public List<UserEntity> findAll();
     public Optional<UserEntity> findById(String id);
+
+    public Optional<UserEntity> findByEmail(String email);
 }
