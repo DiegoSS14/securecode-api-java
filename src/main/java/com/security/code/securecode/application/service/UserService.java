@@ -3,10 +3,9 @@ package com.security.code.securecode.application.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import com.security.code.securecode.application.dto.UserUpdateDto;
+import com.security.code.securecode.application.dto.UpdateRequestDto;
 import com.security.code.securecode.infra.db.jpa.UserEntity;
 import com.security.code.securecode.infra.db.repository.UserRepository;
 import com.security.code.securecode.infra.exception.PatternException;
@@ -34,7 +33,7 @@ public class UserService {
         return repository.saveAndFlush(user);
     }
 
-    public UserEntity update(String email, UserUpdateDto userUpdate) {
+    public UserEntity update(String email, UpdateRequestDto userUpdate) {
         UserEntity user = findByEmail(email).orElseThrow(() -> new PatternException("Invalid user"));
         if (userUpdate.getName() != null) {
             user.setName(userUpdate.getName());

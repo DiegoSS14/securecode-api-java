@@ -11,16 +11,18 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserUpdateDto {
+public class UpdateRequestDto {
     private String name;
     private String email;
     private String password;
+    private String code;
 
-    public UserUpdateDto(User user) {
+    public UpdateRequestDto(User user) {
         this(
-            user.getName().getValue(), 
-            user.getEmail().getValue(), 
-            user.getPassword().getValue()
+            user.getName().getValue(),
+            user.getEmail().getValue(),
+            user.getPassword().getValue(),
+            user.getCode().getValue()
         );
     }
 }
