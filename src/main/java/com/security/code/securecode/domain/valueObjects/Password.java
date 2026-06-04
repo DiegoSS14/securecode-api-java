@@ -23,13 +23,13 @@ public class Password {
         }
     }
 
-    public String hash(String value) throws NoSuchAlgorithmException  {
+    public static String hash(String value) throws NoSuchAlgorithmException  {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hashBytes = digest.digest(value.getBytes()); 
         return HexFormat.of().formatHex(hashBytes);
     }
 
-    public boolean compare(String password, String hashDB) {
+    public static boolean compare(String password, String hashDB) {
         try{
             String passwordDigit = hash(password);
             return passwordDigit.equals(hashDB);

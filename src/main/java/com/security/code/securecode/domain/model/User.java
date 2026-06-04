@@ -1,11 +1,12 @@
 package com.security.code.securecode.domain.model;
 
 import com.security.code.securecode.application.dto.UserDto;
-import com.security.code.securecode.application.dto.UserUpdateDto;
+import com.security.code.securecode.application.dto.UpdateRequestDto;
 import com.security.code.securecode.domain.valueObjects.Email;
 import com.security.code.securecode.domain.valueObjects.Id;
 import com.security.code.securecode.domain.valueObjects.Name;
 import com.security.code.securecode.domain.valueObjects.Password;
+import com.security.code.securecode.domain.valueObjects.SecurityCode;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,22 +24,25 @@ public class User {
     private Name name;
     private Email email;
     private Password password;
+    private SecurityCode code;
 
     public User(UserDto user) {
         this(
             new Id(),
             new Name(user.getName()),
             new Email(user.getEmail()),
-            new Password(user.getPassword())
+            new Password(user.getPassword()),
+            null
         );
     }
 
-    public User(UserUpdateDto user) {
+    public User(UpdateRequestDto user) {
         this(
             new Id(),
             new Name(user.getName()),
             new Email(user.getEmail()),
-            new Password(user.getPassword())
+            new Password(user.getPassword()),
+            null
         );
     }
 }
