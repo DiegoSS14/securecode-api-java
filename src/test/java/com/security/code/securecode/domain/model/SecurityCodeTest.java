@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
+import com.security.code.securecode.domain.valueObjects.SecurityCode;
+
 public class SecurityCodeTest {
     @Test
     public void deveGerarUmCodigoDeSeguranca() {
@@ -20,18 +22,33 @@ public class SecurityCodeTest {
     
     @Test
     public void deveGerarOsAtributos() {
-        SecurityCode code = new SecurityCode("email.test@gmail.com");
-        assertNotNull(code.getCode());
+        SecurityCode code;
+
+        try (MockedStatic<SecurityCode> securityCodeMock = Mockito.mockStatic(SecurityCode.class)) {
+            securityCodeMock.when(SecurityCode::generateCode).thenReturn("12345");
+
+            code = new SecurityCode();
+        }
+
+        assertNotNull(code.getValue());
         assertNotNull(code.getCreatedAt());
         assertNotNull(code.getExpiresIn());
-        assertNotNull(code.getId());
+        assertEquals(0, code.getAttempt());
+        assertEquals(3, code.getMaxAttempt());
         System.out.println(code);
     }
     
     @Test
     public void deveCompararDoisCodigos() {
-        SecurityCode code1 = new SecurityCode("email.test@gmail.com");
-        SecurityCode code2 = new SecurityCode("email.test@gmail.com");
+        SecurityCode code1;
+        SecurityCode code2;
+
+        try (MockedStatic<SecurityCode> securityCodeMock = Mockito.mockStatic(SecurityCode.class)) {
+            securityCodeMock.when(SecurityCode::generateCode).thenReturn("12345", "54321");
+
+            code1 = new SecurityCode();
+            code2 = new SecurityCode();
+        }
         
         assertFalse(SecurityCode.equals(code1, code2));
         assertTrue(SecurityCode.equals(code1, code1));
@@ -45,7 +62,11 @@ public class SecurityCodeTest {
         try (MockedStatic<LocalDateTime> oRelogioDoJava = Mockito.mockStatic(LocalDateTime.class)) {
             oRelogioDoJava.when(LocalDateTime::now).thenReturn(meioDia);
             
-            code = new SecurityCode("email.test@gmail.com", 20);
+            try (MockedStatic<SecurityCode> securityCodeMock = Mockito.mockStatic(SecurityCode.class)) {
+                securityCodeMock.when(SecurityCode::generateCode).thenReturn("12345");
+
+                code = new SecurityCode(20);
+            }
             assertTrue(code.isValid());
         }
         LocalDateTime meioDiaEVinteEUm = LocalDateTime.of(2026, 5, 26, 12, 21);

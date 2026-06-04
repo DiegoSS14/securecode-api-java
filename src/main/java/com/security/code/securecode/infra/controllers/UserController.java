@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.security.code.securecode.application.dto.UserDto;
-import com.security.code.securecode.application.dto.UserUpdateDto;
+import com.security.code.securecode.application.dto.UpdateRequestDto;
 import com.security.code.securecode.application.service.UserService;
 import com.security.code.securecode.domain.model.User;
 import com.security.code.securecode.infra.db.jpa.UserEntity;
@@ -39,10 +39,10 @@ public class UserController {
     }
 
     @PutMapping
-    public UserEntity update(@RequestBody UserUpdateDto userUpdateDto) {
+    public UserEntity update(@RequestBody UpdateRequestDto userUpdateDto) {
         User user = new User(userUpdateDto);
         String email = userUpdateDto.getEmail();
-        UserUpdateDto userFinal = new UserUpdateDto(user);
+        UpdateRequestDto userFinal = new UpdateRequestDto(user);
         return service.update(email, userFinal);
     }
     
