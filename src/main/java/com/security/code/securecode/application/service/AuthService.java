@@ -1,5 +1,8 @@
 package com.security.code.securecode.application.service;
 
+import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,29 +22,33 @@ public class AuthService {
     private SecurityCodeRepository securityCodeRepository;
 
     @Transactional
-    public void startLogin(LoginRequestDto login) {
-        UserEntity user = userService.findByEmail(login
-            .email()).get();
-        if (user == null) {
-            throw new IllegalArgumentException("Invalid password or email");
-        }
-        
-        if (Password.compare(login.password(), user.getPassword())) {
-            throw new IllegalArgumentException("Invalid password or email");
+    public ResponseEntity<String> startLogin(LoginRequestDto login) {
+        Optional<UserEntity> user = userService.findByEmail(login
+                .email());
+
+        if (user.isEmpty() || Password.compare(login.password(), user.get().getPassword())) {
+            return ResponseEntity.status(403).body("Invalid e-mail or password");
         }
 
-        System.out.println(SecurityCode.generateCode());
+        SecurityCode securityCode = new SecurityCode(10);
+        securityCodeRepository.save(login.email(), securityCode);
+
+        System.out.println("Code: " + securityCode.getValue());
+        return ResponseEntity.ok("Código enviado com sucesso!");
     }
 
-    public void approveLogin(RequestVerificationDto requestDto) {
-        SecurityCode securityCode = securityCodeRepository
-            .findByEmail(requestDto.email())
-            .get();
-        
-            if (securityCode == null) {
-                throw new IllegalArgumentException("Invalid security code");
-            }
+    public ResponseEntity<String> approveLogin(RequestVerificationDto requestDto) {
+        Optional<SecurityCode> findSecurityCode = securityCodeRepository
+                .findByEmail(requestDto.email());
 
-            System.out.println("Login was successful");
+        if (findSecurityCode.isEmpty()) {
+            return ResponseEntity.status(403).body("Invalid code");
+        }
+
+        if (!SecurityCode.equals(findSecurityCode.get().getValue(), requestDto.code())) {
+            return ResponseEntity.status(403).body("Invalid code");
+        }
+
+        return ResponseEntity.ok("Usuário logado com sucesso");
     }
 }

@@ -17,7 +17,7 @@ public class InMemorySecurityCodeRepository implements SecurityCodeRepository {
     @Override
     public Optional<SecurityCode> findByEmail(String email) {
         SecurityCode securityCode = storage.get(email);
-        return Optional.of(securityCode);
+        return Optional.ofNullable(securityCode);
     }
 
     @Override
@@ -29,5 +29,4 @@ public class InMemorySecurityCodeRepository implements SecurityCodeRepository {
     public void save(String email, SecurityCode code) {
         storage.put(email, code);
     }
-    
 }
