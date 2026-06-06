@@ -28,5 +28,4 @@ public class AuthController {
     public ResponseEntity<String> postMethodName(@RequestBody RequestVerificationDto requestDto) {
         return authService.approveLogin(requestDto);
     }
-
 }

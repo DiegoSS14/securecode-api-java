@@ -3,9 +3,13 @@ package com.security.code.securecode.application.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.security.code.securecode.application.dto.UpdateRequestDto;
+import com.security.code.securecode.application.dto.UserDto;
+import com.security.code.securecode.application.dto.UserReturnDto;
+import com.security.code.securecode.domain.model.User;
 import com.security.code.securecode.infra.db.jpa.UserEntity;
 import com.security.code.securecode.infra.db.repository.UserRepository;
 import com.security.code.securecode.infra.exception.PatternException;
@@ -29,11 +33,15 @@ public class UserService {
         return repository.findAll();
     }
 
-    public UserEntity create(UserEntity user) {
-        return repository.saveAndFlush(user);
+    public ResponseEntity<UserReturnDto> create(UserDto userDto) {
+        User user = new User(userDto);
+        UserEntity userEntity = repository.saveAndFlush(new UserEntity(user));
+        if (userEntity == null)
+            return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(201).body(new UserReturnDto(userEntity.getName(), userEntity.getEmail()));
     }
 
-    public UserEntity update(String email, UpdateRequestDto userUpdate) {
+    public ResponseEntity<UserReturnDto> update(String email, UpdateRequestDto userUpdate) {
         UserEntity user = findByEmail(email).orElseThrow(() -> new PatternException("Invalid user"));
         if (userUpdate.getName() != null) {
             user.setName(userUpdate.getName());
@@ -47,6 +55,7 @@ public class UserService {
         if (user == null) {
             throw new PatternException("User not exists");
         }
-        return repository.save(user);
+        repository.save(user);
+        return ResponseEntity.ok(new UserReturnDto(user.getName(), user.getEmail()));
     }
 }
